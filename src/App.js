@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import "./App.css";
 import NavBar from "./components/NavBar";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
 import RenderSuggestions from "./RenderSuggestions";
 import FiatData from "./data/currencies.json";
 import CryptoData from "./data/cryptocurrencies.json";
@@ -16,8 +14,8 @@ function App() {
   const [whichCurr, setWhichCurr] = useState(20);
   const [from, setFrom] = useState(true);
   const [to, setTo] = useState(false);
-  const [pickedFrom, setPickedFrom] = useState("");
-  const [pickedTo, setPickedTo] = useState("");
+  const [pickedFrom, setPickedFrom] = useState("Bitcoin (BTC)");
+  const [pickedTo, setPickedTo] = useState("Danish Krone (DKK)");
   const [toText, setToText] = useState("");
   const [exchangeRate, setExchangeRate] = useState();
 
@@ -116,68 +114,63 @@ function App() {
       <NavBar handleSelectChange={handleSelectChange} whichCurr={whichCurr} />
       <div className="app">
         <div className="app-container">
-          <div className="search_container">
-            <TextField
-              id="outlined-basic"
-              label="Search"
-              variant="outlined"
-              inputRef={currentSuggestion}
-              className="search"
-              type="text"
-              onChange={onTextChanged}
-            />
-            <div className={suggestions.length > 0 ? "container" : null}>
-              <RenderSuggestions
-                suggestions={suggestions}
-                clickSuggestion={clickSuggestion}
-              />
+          <div className="app-wrapper">
+            <div className="convert">
+              <div className="convert-container">
+                <label>
+                  <input
+                    type="radio"
+                    name="convert"
+                    checked={from}
+                    onChange={toggleRadio}
+                  />
+                  {pickedFrom}
+                  <input ref={fromText} type="text" onChange={convertValue} />
+                </label>
+                <label>
+                  <input
+                    type="radio"
+                    name="convert"
+                    checked={to}
+                    onChange={toggleRadio}
+                  />
+                  {pickedTo}
+                  {parseInt(toText).toFixed(3)}
+                </label>
+              </div>
             </div>
-            <div className={suggestions.length > 0 ? "hide-button" : null}>
-              <Button
-                onClick={() => {
-                  if (from) {
-                    setPickedFrom(currentSuggestion.current.value);
-                    currentSuggestion.current.value = "";
-                  } else {
-                    setPickedTo(currentSuggestion.current.value);
-                    currentSuggestion.current.value = "";
-                  }
-                }}
-                className="button-css"
-                variant="contained"
-                color="primary"
-              >
-                Add
-              </Button>
-            </div>
-          </div>
-        </div>
-        <div className="convert">
-          <div className="convert-container">
-            <label>
+            <div className="search_container" placeholder="f">
               <input
-                type="radio"
-                name="convert"
-                checked={from}
-                onChange={toggleRadio}
-              />
-              {pickedFrom}
-              <TextField
-                inputRef={fromText}
+                ref={currentSuggestion}
+                className="search"
                 type="text"
-                onChange={convertValue}
+                onChange={onTextChanged}
               />
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="convert"
-                checked={to}
-                onChange={toggleRadio}
-              />
-              {pickedTo}
-              {toText}
-            </label>
+              <div className={suggestions.length > 0 ? "container" : null}>
+                <RenderSuggestions
+                  suggestions={suggestions}
+                  clickSuggestion={clickSuggestion}
+                />
+              </div>
+              <div className={suggestions.length > 0 ? "hide-button" : null}>
+                <div className="button-wrapper">
+                  <button
+                    onClick={() => {
+                      if (from) {
+                        setPickedFrom(currentSuggestion.current.value);
+                        currentSuggestion.current.value = "";
+                      } else {
+                        setPickedTo(currentSuggestion.current.value);
+                        currentSuggestion.current.value = "";
+                      }
+                    }}
+                    className="button-css"
+                  >
+                    Add
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
