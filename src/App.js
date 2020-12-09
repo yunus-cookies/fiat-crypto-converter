@@ -16,7 +16,7 @@ function App() {
   const [to, setTo] = useState(false);
   const [pickedFrom, setPickedFrom] = useState("Bitcoin (BTC)");
   const [pickedTo, setPickedTo] = useState("Danish Krone (DKK)");
-  const [toText, setToText] = useState("");
+  const [toText, setToText] = useState(0);
   const [exchangeRate, setExchangeRate] = useState();
 
   useEffect(() => {
@@ -25,13 +25,7 @@ function App() {
       let toKey = getKeyByValue(pickedTo);
 
       fetch(
-        BASE_URL +
-          "?function=CURRENCY_EXCHANGE_RATE&from_currency=" +
-          fromKey +
-          "&to_currency=" +
-          toKey +
-          "&apikey=" +
-          API_KEY,
+        `${BASE_URL}?function=CURRENCY_EXCHANGE_RATE&from_currency=${fromKey}&to_currency=${toKey}&apikey=${API_KEY}`,
         {
           method: "GET",
           headers: {
@@ -94,6 +88,10 @@ function App() {
       : setAllValues(Object.values(CryptoData));
   }, [whichCurr]);
 
+  useEffect(() => {
+    console.log("ffe");
+  }, [pickedFrom, pickedTo]);
+
   function toggleRadio() {
     setFrom(!from);
     setTo(!to);
@@ -104,7 +102,9 @@ function App() {
   };
 
   function convertValue() {
-    if (fromText.current.value != "") {
+    if (fromText.current.value === "") {
+      setToText(0);
+    } else {
       setToText(exchangeRate * fromText.current.value);
     }
   }
@@ -135,15 +135,15 @@ function App() {
                     onChange={toggleRadio}
                   />
                   {pickedTo}
-                  {parseInt(toText).toFixed(3)}
                 </label>
               </div>
             </div>
-            <div className="search_container" placeholder="f">
+            <div className="search_container">
               <input
                 ref={currentSuggestion}
                 className="search"
                 type="text"
+                placeholder="Search"
                 onChange={onTextChanged}
               />
               <div className={suggestions.length > 0 ? "container" : null}>
@@ -170,6 +170,9 @@ function App() {
                   </button>
                 </div>
               </div>
+            </div>
+            <div className="output-container">
+              <h1 className="output">{toText}</h1>
             </div>
           </div>
         </div>
