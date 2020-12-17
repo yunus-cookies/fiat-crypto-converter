@@ -11,14 +11,30 @@ function App() {
   const currentSuggestion = useRef();
   const fromText = useRef();
 
+  /** State for whether currency mode is fiat or crypto */
   const [whichCurr, setWhichCurr] = useState(20);
+
+  /** States for whether user is typing in from or to field */
   const [from, setFrom] = useState(true);
   const [to, setTo] = useState(false);
+
+  /** States for which currencies are set to from and to fields */
   const [pickedFrom, setPickedFrom] = useState("Bitcoin (BTC)");
   const [pickedTo, setPickedTo] = useState("Danish Krone (DKK)");
+
+  /** State for the output */
   const [toText, setToText] = useState(0);
+
+  /** State for the exchangerate from api fetch */
   const [exchangeRate, setExchangeRate] = useState();
 
+  /** State to contain collection of fiat/crypto values */
+  const [allValues, setAllValues] = useState(Object.values(FiatData));
+
+  /** State for collection of displayed suggestion based on user input */
+  const [suggestions, setSuggestions] = useState([]);
+
+  /** Fetch data from Alphavantage RESTAPI */
   useEffect(() => {
     if (pickedFrom.length != 0 && pickedTo.length != 0) {
       let fromKey = getKeyByValue(pickedFrom);
@@ -44,9 +60,6 @@ function App() {
     }
   }, [pickedFrom, pickedTo]);
 
-  const [allValues, setAllValues] = useState(Object.values(FiatData));
-  const [suggestions, setSuggestions] = useState([]);
-
   /* Find a key by value from object. Fx getKeyByValue(cryptocurrencies, "XTRABYTES") = XBY */
   function getKeyByValue(value) {
     let object;
@@ -57,6 +70,7 @@ function App() {
     return Object.keys(object).find((key) => object[key] === value);
   }
 
+  /** Function to filter suggestion based on user input */
   function onTextChanged(e) {
     const value = e.target.value;
     if (value.length > 0) {

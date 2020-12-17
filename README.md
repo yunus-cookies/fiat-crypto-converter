@@ -1,6 +1,6 @@
 ## Project link
 
-<a href="yunus-cookies.github.io/project1">Link to project</a>
+<a href="https://yunus-cookies.github.io/project1/">Link to project</a>
 
 ## Info
 
