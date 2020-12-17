@@ -1,3 +1,7 @@
+## Project link
+
+<a href="yunus-cookies.github.io/project1">Link to project</a>
+
 ## Info
 
 This project involved using the alphavantage.co RESTAPI to fetch all current exchange rates of fiat and cryptocurrencies.<br />

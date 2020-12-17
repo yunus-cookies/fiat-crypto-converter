@@ -88,10 +88,6 @@ function App() {
       : setAllValues(Object.values(CryptoData));
   }, [whichCurr]);
 
-  useEffect(() => {
-    console.log("ffe");
-  }, [pickedFrom, pickedTo]);
-
   function toggleRadio() {
     setFrom(!from);
     setTo(!to);
