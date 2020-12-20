@@ -36,7 +36,7 @@ function App() {
 
   /** Fetch data from Alphavantage RESTAPI */
   useEffect(() => {
-    if (pickedFrom.length != 0 && pickedTo.length != 0) {
+    if (pickedFrom.length !== 0 && pickedTo.length !== 0) {
       let fromKey = getKeyByValue(pickedFrom);
       let toKey = getKeyByValue(pickedTo);
 
@@ -64,7 +64,7 @@ function App() {
   function getKeyByValue(value) {
     let object;
     let fiat = Object.values(FiatData);
-    fiat.findIndex((val) => val === value) != -1
+    fiat.findIndex((val) => val === value) !== -1
       ? (object = FiatData)
       : (object = CryptoData);
     return Object.keys(object).find((key) => object[key] === value);
@@ -97,7 +97,7 @@ function App() {
   }
 
   useEffect(() => {
-    whichCurr == 20
+    Number(whichCurr) === 20
       ? setAllValues(Object.values(FiatData))
       : setAllValues(Object.values(CryptoData));
   }, [whichCurr]);
@@ -127,14 +127,16 @@ function App() {
           <div className="app-wrapper">
             <div className="convert">
               <div className="convert-container">
-                <label>
-                  <input
-                    type="radio"
-                    name="convert"
-                    checked={from}
-                    onChange={toggleRadio}
-                  />
-                  {pickedFrom}
+                <label className="labelClass">
+                  <div>
+                    <input
+                      type="radio"
+                      name="convert"
+                      checked={from}
+                      onChange={toggleRadio}
+                    />
+                    <p>{pickedFrom}</p>
+                  </div>
                   <input ref={fromText} type="text" onChange={convertValue} />
                 </label>
                 <label>
@@ -144,7 +146,7 @@ function App() {
                     checked={to}
                     onChange={toggleRadio}
                   />
-                  {pickedTo}
+                  <p>{pickedTo}</p>
                 </label>
               </div>
             </div>
@@ -182,7 +184,10 @@ function App() {
               </div>
             </div>
             <div className="output-container">
-              <h1 className="output">{toText}</h1>
+              <h1 className="output" style={{ marginRight: "10px" }}>
+                {toText}
+              </h1>
+              <h1 className="output">{getKeyByValue(pickedTo)}</h1>
             </div>
           </div>
         </div>
